@@ -1,0 +1,162 @@
+:root {
+    --primary-color: #007bff; /* Azul de Bootstrap */
+    --success-color: #28a745; /* Verde de Bootstrap */
+    --info-color: #17a2b8;   /* Azul claro de Bootstrap */
+    --dark-bg: #343a40;      /* Gris oscuro del navbar */
+    --light-bg: #f8f9fa;     /* Gris claro del body */
+    --text-color: #333;      /* Color de texto general */
+    --saguapac-blue: #00A6DA; /* Puedes ajustar a un azul específico de Saguapac si lo tienes */
+    --saguapac-black: #212529; /* Negro similar al del logo */
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+}
+
+.navbar {
+    margin-bottom: 0;
+    background-color: var(--saguapac-black) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(to bottom, #ffffff, var(--light-bg));
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+    /* Animación de entrada para toda la sección */
+    animation: fadeInSlideUp 1.2s ease-out forwards; /* Ajusta la duración y el tipo de easing */
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco más abajo */
+}
+
+/* Definición de la animación */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Viene desde abajo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Termina en su posición normal */
+    }
+}
+
+/* Estilo para el logo principal centrado */
+.main-logo {
+    max-width: 250px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.hero-section h1 {
+    color: var(--saguapac-black);
+    font-weight: 700;
+    /* Opcional: animar el h1 también si quieres un efecto escalonado */
+    /* animation: fadeIn 1.5s ease-out 0.3s forwards; */
+}
+
+.hero-section p.lead {
+    color: #6c757d;
+    /* Opcional: animar el p.lead también */
+    /* animation: fadeIn 1.5s ease-out 0.6s forwards; */
+}
+
+/* Otra animación de fade in (puedes usarla para otros elementos si quieres) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Sección de Cómo Funciona */
+.feature-box {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,.15) !important;
+}
+
+.feature-box i {
+    color: var(--saguapac-blue);
+}
+
+/* Card del formulario de subida */
+.upload-card .card-header {
+    background-color: var(--saguapac-blue) !important;
+    border-bottom: 1px solid var(--saguapac-blue);
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+#graphs-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+#graphs-container img:hover {
+    transform: scale(1.02);
+}
+
+.graph-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-card .card-body {
+    flex-grow: 1;
+}
+
+/* Estilos para el botón de análisis mientras carga */
+#analyze-button.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Fondo para el modal de visualización de gráficos */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+footer {
+    background-color: var(--saguapac-black);
+    color: #ffffff;
+    padding: 25px 0;
+    font-size: 0.9em;
+}
