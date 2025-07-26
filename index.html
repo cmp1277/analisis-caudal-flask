@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Caudal de Pozos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OerSvFz6kU4E/mHTqD/pn6+EymS0r0P+5k0p4lWqfKx1/u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Análisis de Caudal</a>
+        </div>
+    </nav>
+
+    <section class="hero-section py-5 text-center">
+        <div class="container">
+            <img src="{{ url_for('static', filename='img/saguapac_logo.png') }}" alt="Logo Saguapac" class="main-logo img-fluid mb-4">
+            <h1 class="display-4 fw-bold text-dark mb-3">Monitoreo Inteligente de Caudales para la Gestión Hídrica</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Analiza datos históricos de pozos, detecta caídas críticas de producción y visualiza proyecciones claras para una toma de decisiones informada.
+            </p>
+        </div>
+    </section>
+
+    <div class="container mt-4 mb-5">
+        <h2 class="text-center mb-5 fw-bold">¿Cómo Funciona?</h2>
+        <div class="row text-center mb-5">
+            <div class="col-md-4">
+                <div class="feature-box p-4 rounded shadow-sm mb-4">
+                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
+                    <h5 class="fw-bold">1. Sube tu Excel</h5>
+                    <p class="text-muted">Proporciona el archivo de datos de caudal de tus pozos en formato .xlsx.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box p-4 rounded shadow-sm mb-4">
+                    <i class="fas fa-chart-line fa-3x mb-3 text-success"></i>
+                    <h5 class="fw-bold">2. Ejecuta el Análisis</h5>
+                    <p class="text-muted">Nuestro sistema procesará automáticamente los datos y detectará anomalías.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box p-4 rounded shadow-sm mb-4">
+                    <i class="fas fa-file-download fa-3x mb-3 text-info"></i>
+                    <h5 class="fw-bold">3. Visualiza y Descarga</h5>
+                    <p class="text-muted">Obtén tablas de pozos críticos y gráficos de proyección para cada pozo.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-lg mb-5 bg-white upload-card">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h3 class="mb-0 fw-bold">Iniciar Análisis de Caudal</h3>
+            </div>
+            <div class="card-body p-4">
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="excelFile" class="form-label fs-5">Selecciona tu archivo de producción (.xlsx)</label>
+                        <input class="form-control form-control-lg" type="file" id="excelFile" name="file" accept=".xlsx">
+                        <div id="file-error" class="text-danger mt-2" style="display: none;"></div>
+                    </div>
+                    <div class="d-grid gap-2"> <button type="submit" class="btn btn-success btn-lg" id="analyze-button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                            Ejecutar Análisis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="results-area" class="mt-5" style="display: none;">
+            <div class="alert alert-info" id="message-area" role="alert" style="display: none;"></div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Pozos Críticos Detectados</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-end mb-3">
+                        <a id="download-critical-excel" class="btn btn-outline-primary btn-sm" style="display: none;" download>
+                            Descargar Pozos Críticos (Excel)
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="critical-wells-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Pozo</th>
+                                    <th>Campo</th>
+                                    <th>Caudal Inicial</th>
+                                    <th>Caudal Actual</th>
+                                    <th>Promedio Histórico</th>
+                                    <th>% Caída</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mb-3 text-center">Gráficos de Pozos Críticos</h3>
+            <div id="graphs-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <p class="mb-0">&copy; {{ year }} Análisis de Caudal. Desarrollado con Flask, Pandas y Matplotlib.</p>
+        <p class="mb-0">SAGUAPAC - El agua de todos.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5fSjXl+D2Y" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
